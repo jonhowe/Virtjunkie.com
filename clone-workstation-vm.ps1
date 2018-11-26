@@ -1,4 +1,8 @@
 <#
+Original Links:
+http://www.virtjunkie.com/clone-vm-in-workstation-15-pro-via-rest-api-using-powershell/
+https://github.com/jonhowe/Virtjunkie.com/edit/master/clone-workstation-vm.ps1
+
 The API will need to be running. Use this link to configure it.
 https://docs.vmware.com/en/VMware-Workstation-Pro/15.0/com.vmware.ws.using.doc/GUID-C3361DF5-A4C1-432E-850C-8F60D83E5E2B.html
 #>
