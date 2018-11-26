@@ -1,3 +1,7 @@
+#Original Locations:
+#Blog: http://www.virtjunkie.com/thin-provision-vms-on-workstation-pro-using-the-vmrun-command/
+#Github: https://github.com/jonhowe/Virtjunkie.com/blob/master/workstation-clone-vm.sh
+
 #Example:
 #testgetopt.sh --user root --pass [pass] --template /storage/virtual_machines/Ubuntu_1810_Template/Ubuntu_1810_Template.vmx --snapshot base-4 --name test1
 
