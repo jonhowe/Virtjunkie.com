@@ -17,6 +17,7 @@ SOURCESNAPSHOT=
 DESTINATIONVMNAME=
 GUESTUSER=
 GUESTPASS=
+echo "Parameters are:"
 while true; do
   case "$1" in
     -u | --user )
@@ -33,7 +34,7 @@ while true; do
     * ) break ;;
   esac
 done
-
+echo
 
 wait_for_vmware_tools() {
     CMD=$1
@@ -89,14 +90,18 @@ clone_workstation_vm() {
     wait_for_vmware_tools $VMRUN $USER $PASS $NEWVM
 
     echo "Copying script to change the hostname from the host to the guest"
-    $VMRUN -t ws -gu $USER -gp $PASS copyFileFromHostToGuest $NEWVM ./JH01_Set-Hostname.sh /tmp/JH01_Set-Hostname.sh
+    currentDir="${0%/*}"
+    $VMRUN -t ws -gu $USER -gp $PASS copyFileFromHostToGuest $NEWVM $currentDir"/JH01_Set-Hostname.sh" /tmp/JH01_Set-Hostname.sh
     echo "Running custom script in $DESTINATION to set the hostname and rebooting"
     $VMRUN -t ws -gu $USER -gp $PASS runProgramInGuest $NEWVM /tmp/JH01_Set-Hostname.sh "$DESTINATION"
 
     wait_for_vmware_tools $VMRUN $USER $PASS $NEWVM
 
     echo "Copying output to local machine"
-    $VMRUN -t ws -gu $USER -gp $PASS copyFileFromGuestToHost $NEWVM /var/log/oscustomization.log ./"$DESTINATION"_Customization.log""
+    $VMRUN -t ws -gu $USER -gp $PASS copyFileFromGuestToHost $NEWVM /var/log/oscustomization.log $currentDir"/"$DESTINATION"_Customization.log"
+    echo
+    echo "Below is the output from the OS Customization:"
+    cat $currentDir"/"$DESTINATION"_Customization.log"
 
     wait_for_vm_ip $VMRUN $USER $PASS $NEWVM
 }
