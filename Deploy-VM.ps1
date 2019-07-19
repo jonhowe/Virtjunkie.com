@@ -1,5 +1,9 @@
 function New-VirtJunkieLinkedClone {
     [CmdletBinding()]
+    <#
+    Github: https://github.com/jonhowe/Virtjunkie.com/blob/master/Deploy-VM.ps1
+    Link: https://www.virtjunkie.com/?p=774
+    #>
     param (
         #vCenter Info
         $vCenter            = 'vcsa.home.lab',
