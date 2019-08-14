@@ -3,8 +3,11 @@
 .LINK https://github.com/jonhowe/Virtjunkie.com/blob/master/Parse-RVTools-Generic.ps1
 #>
 param(
+    # Migrate Powered Off VMs?
+    [switch]$IncludePoweredOffVMs,
+
     # Directory that contains RVTools Exports
-    $spreadsheetdir = "/storage/btsync/folders/PCM/Customers/Agilysys/rvtools/results/",
+    $spreadsheetdir = "/path/to/RVTools",
     
     # Array that contains column headers to be gathered from the vHost worksheet
     $vHostProperties = @(
@@ -53,12 +56,11 @@ foreach ($sheet in $SpreadSheets)
     # Use the importexcel module to import the vCluster Worksheet
     # We do this as an easy way to get the 
     $vCluster = Import-Excel -Path $sheet -Sheet vCluster
-    $ClusterList = $vCluster | Select-Object Name
-
-    foreach ($cluster in $ClusterList)
+    
+    foreach ($cluster in $vCluster)
     {
         $ClusterDetails = New-Object System.Object
-        $ClusterDetails | Add-Member -type NoteProperty -name vCenter -Value ($vCluster."VI SDK Server")
+        $ClusterDetails | Add-Member -type NoteProperty -name vCenter -Value ($cluster."VI SDK Server")
         $ClusterDetails | Add-Member -type NoteProperty -name Cluster -Value $cluster.name 
        
         # Parse and store the properties defined in the $vInfoProperties array
@@ -94,13 +96,15 @@ foreach ($sheet in $SpreadSheets)
 
         #Detect RDMs and VMs with Shared Bus based on info in the vDisk sheet
         $RDMs = ($vDisk | ? { $_."Raw LUN ID" -ne $null})
-        $SharedBusVMs = ($vDisk | ? { $_."Shared Bus" -ne $null -and $_."Shared Bus" -ne "noSharing"})
+        $SharedBusVMs = ($vDisk | ? { $_."Shared Bus" -ne $null -and $_."Shared Bus" -ne "noSharing" -and $_."Shared Bus" -ne 0})
+
+        $clusterCoreCount = [math]::round(($cluster | Measure-Object -Sum "NumCpuCores").sum,0)
 
         $ClusterDetails | Add-Member -type NoteProperty -name AvgClusterRamUsage -Value $AvgClusterRamUsage
         $ClusterDetails | Add-Member -type NoteProperty -name ClusterRamGB -Value $clusterRAM
         $ClusterDetails | Add-Member -type NoteProperty -name ClusterVMCount -Value $vInfo.count
         $ClusterDetails | Add-Member -type NoteProperty -name ClusterHostCount -Value ($vHost.count)
-        $ClusterDetails | Add-Member -type NoteProperty -name TotalClusterCores -Value $vCluster.NumCpuCores
+        $ClusterDetails | Add-Member -type NoteProperty -name TotalClusterCores -Value $clusterCoreCount
         $ClusterDetails | Add-Member -type NoteProperty -name vCPUtoPCPU -Value ($vCPUtoPCPU)
         $ClusterDetails | Add-Member -type NoteProperty -name RDMCount -Value ($RDMs.count)
         $ClusterDetails | Add-Member -type NoteProperty -name SharedBusVMs -Value ($SharedBusVMs.count)
