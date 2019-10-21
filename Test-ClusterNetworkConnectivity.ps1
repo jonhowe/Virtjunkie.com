@@ -6,14 +6,14 @@ param(
 	$vcenterserver = "vcenter67.pcm.net",
 	$vswitch = "UCS-vDS001",
 	$clustername = "UCS Cluster",
-	$verbose = $false
+	$verbose = $false,
+	$csvpath = "C:\powershell\PCMlab_test_csv.csv"
 )
 
 <#
 ***Fields in the CSV***
 IP, GW, PG, netmask, vlan
 #>
-$csvpath = "C:\powershell\PCMlab_test_csv.csv"
 
 #1.) connect to the vcenter
 $credential = get-credential
