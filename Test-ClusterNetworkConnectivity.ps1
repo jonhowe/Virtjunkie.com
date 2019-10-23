@@ -89,19 +89,20 @@ foreach ($vmhost in $vmhosts)
 			write-verbose -verbose:$verbose $output
 
 			#Add properties to the object
+			$PingResults | Add-Member -type NoteProperty -name Cluster -Value $clustername
 			$PingResults | Add-Member -type NoteProperty -name VMHost -Value $vmhost.name
-			$PingResults | Add-Member -type NoteProperty -name PG -Value $ONE_VMK_CSV_ROW.pg
-			$PingResults | Add-Member -type NoteProperty -name vLAN -Value $ONE_VMK_CSV_ROW.vlan
+			$PingResults | Add-Member -type NoteProperty -name SourceIP -Value "ERROR"
+			$PingResults | Add-Member -type NoteProperty -name TargetIP -Value "ERROR"
+			$PingResults | Add-Member -type NoteProperty -name PortGroup -Value $ONE_VMK_CSV_ROW.pg
+			$PingResults | Add-Member -type NoteProperty -name VLAN -Value $ONE_VMK_CSV_ROW.vlan
 			$PingResults | Add-Member -type NoteProperty -name vSwitch -Value $vswitch
 			$PingResults | Add-Member -type NoteProperty -name PercentSuccess -Value "ERROR"
 		}
 
 		#add object to array
 		$RS += $PingResults
-		break
 
 	} # end foreach ($ONE_VMK_CSV_ROW in $ALL_VMK_CSV_Rows)
-	break
 } # end foreach ($vmhost in $vmhosts)
 
 Write-Output $RS
