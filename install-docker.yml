@@ -1,0 +1,17 @@
+---
+- name: Install Docker
+  hosts: all
+  become: yes
+  become_method: sudo
+  tasks:
+  - name: Install Docker and docker-compose
+    include_role:
+       name: geerlingguy.docker
+    vars:
+       - docker_edition: 'ce'
+       - docker_apt_release_channel: test
+       - docker_package_state: present
+       - docker_install_compose: true
+       - docker_compose_version: "1.22.0"
+       - docker_users:
+          - jhowe
