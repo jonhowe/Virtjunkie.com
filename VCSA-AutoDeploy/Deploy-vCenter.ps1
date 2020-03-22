@@ -48,9 +48,12 @@ param (
     [string]
     $ExcelFile = "/home/jhowe/git/Personal/AutomatedLab/JonAutoLab/HostDetails.xlsx"
     ,
-    [Parameter(Mandatory=$true)]
-    [ValidateScript( { Test-Path $_ })]
-    [string]
+    [ValidateScript( {
+        if ( -Not ($_ | Test-Path) ) {
+            throw "Path to 7zip is not correct"
+        }
+        return $true
+    })]
     $7z = '/usr/bin/7z'
 )
 $ErrorActionPreference = 'Stop'

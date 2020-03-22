@@ -1,0 +1,16 @@
+{
+    "vcenter_server":"vcenter.home.lab",
+    "vsphere_username":"administrator@vsphere.local",
+    "vsphere_password":"VMware1!",
+    "datastore":"vsanDatastore",
+    "host":"esxi1-mgmt.home.lab",
+    "datacenter": "Datacenter",
+    "folder": "Core/Templates",
+    "cluster": "Cluster",
+    "network": "100-LabNetwork",
+    "winrm_username": "administrator",
+    "winrm_password": "VMware1!",
+
+    "vm_name":  "WS16-TPL",
+    "notes": "Template Built March 14, 2019"
+}

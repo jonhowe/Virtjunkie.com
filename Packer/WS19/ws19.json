@@ -1,0 +1,68 @@
+{
+  "builders": [
+    {
+      "type": "vsphere-iso",
+
+      "vcenter_server":         "{{user `vcenter_server`}}",
+      "insecure_connection":    "true",
+
+      "username":               "{{user `vsphere_username`}}",
+      "password":               "{{user `vsphere_password`}}",
+
+      "datacenter":             "{{user `datacenter`}}",
+      "cluster":                "{{user `cluster`}}",
+      "host":                   "{{user `host`}}",
+      "folder":                 "{{user `folder`}}",
+      
+      "convert_to_template":    "true",
+      "boot_order":             "disk,cdrom",
+
+      "communicator":           "winrm",
+      "winrm_username":         "{{user `winrm_username`}}",
+      "winrm_password":         "{{user `winrm_password`}}",
+
+      "vm_name":                "{{user `vm_name`}}",
+      "notes":                  "{{user `notes`}}",
+      "cpus":                   "2",
+      "ram":                    "4096",
+      
+      "datastore":              "{{user `datastore`}}",
+      "disk_thin_provisioned":  true,
+      "disk_size":              "32768",
+      "disk_controller_type":  "lsilogic-sas",
+
+      "network":                "{{user `network`}}",
+      "network_card":           "vmxnet3",
+
+      "guest_os_type": "windows9Server64Guest",
+
+      "iso_paths": [
+            "[esxi1-nvme] ISO/Windows/17763.737.190906-2324.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us_1.iso",
+            "[esxi1-nvme] ISO/VMTools/VMware-tools-windows-11.0.1-14773994.iso"
+          ],
+      "floppy_files": [
+        "./autounattend.xml",
+        "Scripts/vmtools.cmd",
+        "Scripts/level0-setup.ps1"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "powershell",
+      "scripts": ["Scripts/level1-setup.ps1"]
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "30m"
+    },
+    {
+      "type": "windows-update",
+      "search_criteria": "IsInstalled=0",
+      "filters": [
+          "exclude:$_.Title -like '*Preview*'",
+          "include:$true"
+      ]
+  }
+  ]
+}

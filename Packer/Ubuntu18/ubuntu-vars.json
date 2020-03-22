@@ -1,0 +1,14 @@
+{
+    "vcenter_server":"vcenter.home.lab",
+    "username":"administrator@vsphere.local",
+    "password":"VMware1!",
+    "datastore":"vsanDatastore",
+    "host":"esxi1-mgmt.home.lab",
+    "datacenter": "Datacenter",
+    "folder": "Core/Templates",
+    "cluster": "Cluster",
+    "network": "100-LabNetwork",
+    "ssh_username": "jhowe",
+    "ssh_password": "VMware1!",
+    "notes": "Template Built March 22, 2019"
+}
