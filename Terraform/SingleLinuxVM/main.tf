@@ -1,3 +1,6 @@
+#https://www.virtjunkie.com/vmware-provisioning-using-hashicorp-terraform/
+#https://github.com/jonhowe/Virtjunkie.com/tree/master/Terraform
+
 #The variables are all defined in the variables.tf file. The values assigned to the variables are set in the tfvars file
 
 provider "vsphere" {

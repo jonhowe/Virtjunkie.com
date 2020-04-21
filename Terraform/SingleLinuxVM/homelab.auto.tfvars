@@ -1,3 +1,6 @@
+#https://www.virtjunkie.com/vmware-provisioning-using-hashicorp-terraform/
+#https://github.com/jonhowe/Virtjunkie.com/tree/master/Terraform
+
 vsphere_server = "vcenter.home.lab"
 
 vsphere_user = "administrator@vsphere.local"

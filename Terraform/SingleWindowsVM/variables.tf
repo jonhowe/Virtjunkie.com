@@ -1,3 +1,6 @@
+#https://www.virtjunkie.com/vmware-provisioning-using-hashicorp-terraform/
+#https://github.com/jonhowe/Virtjunkie.com/tree/master/Terraform
+
 variable "vsphere_server" {
   description = "vsphere server for the environment - EXAMPLE: vcenter01.hosted.local"
   default     = "vcenter.corp.lab"

@@ -1,3 +1,6 @@
+#https://www.virtjunkie.com/vmware-provisioning-using-hashicorp-terraform/
+#https://github.com/jonhowe/Virtjunkie.com/tree/master/Terraform
+
 # Base config
 # Vcenter connection parameters
 provider "vsphere" {
