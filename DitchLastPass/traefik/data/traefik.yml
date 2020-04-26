@@ -1,0 +1,22 @@
+api:
+  dashboard: false
+
+entryPoints:
+  http:
+    address: ":80"
+  https:
+    address: ":443"
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+
+certificatesResolvers:
+  http:
+    acme:
+      email: your.email@domain.com
+      storage: acme.json
+      httpChallenge:
+        entryPoint: http
+
