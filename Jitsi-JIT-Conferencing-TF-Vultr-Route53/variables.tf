@@ -1,6 +1,6 @@
 #variables.tf
 #https://www.virtjunkie.com/jitsi-jit-conferencing-tf-vultr-route53/
-#https://github.com/
+#https://github.com/jonhowe/Virtjunkie.com/tree/master/Jitsi-JIT-Conferencing-TF-Vultr-Route53
 
 variable "vultr_api_key" {
     description = "API Key Used by Vultr (https://my.vultr.com/settings/#settingsapi)"

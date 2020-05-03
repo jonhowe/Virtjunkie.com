@@ -1,6 +1,6 @@
 #main.tf
 #https://www.virtjunkie.com/jitsi-jit-conferencing-tf-vultr-route53/
-#https://github.com/
+#https://github.com/jonhowe/Virtjunkie.com/tree/master/Jitsi-JIT-Conferencing-TF-Vultr-Route53
 
 #Conifugre the Vultr provider
 provider "vultr" {

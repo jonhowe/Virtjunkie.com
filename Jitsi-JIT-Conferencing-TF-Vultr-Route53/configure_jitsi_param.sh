@@ -3,7 +3,7 @@
 #I added lines 7-9 to allow for adding parameters on the CLI and commented lines 11-13 to force the variables to be provided on the CLI
 #https://www.vultr.com/docs/one-click-jitsi
 #https://www.virtjunkie.com/jitsi-jit-conferencing-tf-vultr-route53/
-#https://github.com/
+#https://github.com/jonhowe/Virtjunkie.com/tree/master/Jitsi-JIT-Conferencing-TF-Vultr-Route53
 HOSTNAME=$1
 EMAIL=$2
 response=$3
