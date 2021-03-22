@@ -1,0 +1,90 @@
+{
+    "builders": [
+      {
+        "type": "vsphere-iso",
+        
+        "vcenter_server": "{{user `vcenter_server`}}",
+        "username": "{{user `vsphere_username`}}",
+        "password": "{{user `vsphere_password`}}",
+        "insecure_connection": "true",
+
+        "vm_name": "{{ user `vm_name` }}",
+        "notes": "Template Built {{isotime \"2006-01-02 03:04:05\"}}",
+
+        "datacenter": "{{user `datacenter`}}",
+        "cluster": "{{user `cluster`}}",
+        "resource_pool": "",
+        "datastore": "{{user `datastore`}}",
+        "folder": "{{user `folder`}}",
+        
+        "iso_paths": [
+          "{{user `boot_iso`}}"
+        ],
+
+        "boot_order": "disk,cdrom",
+        "boot_command": [
+          "<tab> inst.text inst.ks=cdrom:/dev/sr1:/ks.cfg <enter>"
+        ],
+        "cd_label": "OEMDRV",
+        "cd_files": [
+          "./ks.cfg"
+        ],
+        "boot_wait": "{{ user `boot_wait` }}",
+        
+        "CPUs": 2,
+        "RAM": 2048,
+        "RAM_reserve_all": true,
+
+        "storage": [
+          {
+            "disk_size": 32768,
+            "disk_thin_provisioned": true
+          }
+        ],
+        "disk_controller_type": "pvscsi",
+
+        "guest_os_type": "centos6_64guest",
+        
+        "network_adapters": [
+          {
+            "network": "{{user `network`}}",
+            "network_card": "vmxnet3"
+          }
+        ],
+  
+        "shutdown_command": "echo 'packer'|sudo -S /sbin/halt -h -p",
+        "ssh_password": "{{ user `ssh_password` }}",
+        "ssh_port": 22,
+        "ssh_username": "{{ user `ssh_username` }}",
+        "ssh_timeout": "30m",
+        
+        "convert_to_template": "true",
+        "create_snapshot": "true",
+        "remove_cdrom": "true"
+      }
+    ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "echo 'packer'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "inline": [
+        "dnf -y update",
+        "dnf -y install python3",
+        "pip3 install --upgrade pip",
+        "alternatives --set python /usr/bin/python3",
+        "pip3 install ansible"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "scripts/setup.yml"
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'packer'|{{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "scripts": [
+        "scripts/cleanup.sh"
+      ]
+    }
+  ]
+}

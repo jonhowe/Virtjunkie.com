@@ -1,0 +1,87 @@
+---
+- name: "Setup.yml"
+  hosts: localhost
+  gather_facts: yes
+  become: yes
+  tasks:
+  - name: Colorize root shell prompt
+    lineinfile:
+      path: /root/.bashrc
+      line: 'export PS1="\[\033[38;5;11m\]\u\[$(tput sgr0)\]\[\033[38;5;15m\]@\h:\[$(tput sgr0)\]\[\033[38;5;6m\][\w]:\[$(tput sgr0)\]\[\033[38;5;15m\] \[$(tput sgr0)\]"'
+      state: present
+
+  - name: Alias vi to vim
+    lineinfile:
+      path: /root/.bashrc
+      line: "alias vi='vim'"
+      state: present
+
+  - name: Create vim configuration file
+    file:
+      path: /root/.vimrc
+      state: touch
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Configure vim
+    blockinfile:
+      path: /root/.vimrc
+      block: |
+        set nocompatible
+        set number
+        set autoindent
+        syntax on
+        highlight Comment ctermfg=LightCyan
+      marker: ""
+      state: present
+
+  - name: Disable GSSAPIAuthentication
+    lineinfile:
+      path: /etc/ssh/sshd_config
+      regexp: "^GSSAPIAuthentication"
+      line: "GSSAPIAuthentication no"
+      state: present
+
+  # - name: Update CA bundle (RedHat)
+  #   get_url:
+  #     url: https://curl.haxx.se/ca/cacert.pem
+  #     dest: /etc/pki/tls/certs/ca-bundle.crt
+  #     force: yes
+  #   when: ansible_os_family == "RedHat"
+
+  - name: Install epel repo (RedHat)
+    dnf:
+      name: "epel-release"
+      state: latest
+    when: ansible_os_family == "RedHat"
+
+  - name: Upgrade all packages (RedHat)
+    dnf:
+      name: "*"
+      state: latest
+    when: ansible_os_family == "RedHat"
+
+  - name: Install packages (RedHat)
+    dnf:
+      name: "{{ packages }}"
+      state: latest
+    vars:
+      packages:
+      - bash-completion
+      - curl
+      - git
+      - rsync
+      - screen
+      #- tcpdump
+      - vim
+      - wget
+    when: ansible_os_family == "RedHat"
+
+  - name: Install open-vm-tools (RedHat)
+    dnf:
+      name: open-vm-tools
+      state: latest
+    when:
+      - ansible_os_family == "RedHat"
+      - ansible_virtualization_type == "VMware"

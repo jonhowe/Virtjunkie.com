@@ -1,0 +1,18 @@
+{
+  "vcenter_server": "dc5vapvcsa01.corp.n-able.com",
+  "vsphere_username": "administrator@vsphere.local",
+  "vsphere_password": "2RPQL73!!s",
+  "datastore": "DC5-vSAN-MGMT",
+  "host": "dc5pvpesxmgt01.corp.n-able.com",
+  "datacenter": "DC5 - Ashburn, VA",
+  "folder": "Templates",
+  "cluster": "DC5-MGMT",
+  "network": "DC5-VLAN20-PC_Management",
+  "boot_wait": "5s",
+  "boot_iso": "[DC5-vSAN-MGMT] ISO/Linux/CentOS-Stream-8-x86_64-20210311-boot.iso",
+  "memsize": "2048",
+  "numvcpus": "2",
+  "ssh_password" : "packer",
+  "ssh_username" : "packer",
+  "vm_name": "tpl_Centos8Stream"
+}
