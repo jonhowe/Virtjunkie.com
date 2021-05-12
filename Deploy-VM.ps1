@@ -1,3 +1,4 @@
+
 function New-VirtJunkieLinkedClone {
     [CmdletBinding()]
     <#
@@ -10,6 +11,8 @@ function New-VirtJunkieLinkedClone {
         $username           = 'administrator@vsphere.local',
         $password           = 'VMWare1!',
         $TemplateCustomSpec = 'linux',
+        $Cluster            = "Cluster",
+        $Datastore          = "Datastore",
         #$TemplateCustomSpec = 'WS16to19',
 
         #Parent VM Info
@@ -62,7 +65,9 @@ function New-VirtJunkieLinkedClone {
  
 
         $mySourceVM = Get-VM -Name $ParentVMName
-
+        $Cluster = Get-Cluster $Cluster
+        $myDatastore = Get-Datastore -Name $Datastore
+        
         if ($LinkedClone)
         {
             $myReferenceSnapshot = Get-Snapshot -VM $mySourceVM -Name $SnapshotName 
@@ -74,8 +79,7 @@ function New-VirtJunkieLinkedClone {
             $rs = New-VM -Name $VMName -VM $mySourceVM -ResourcePool $Cluster -Datastore $myDatastore -OSCustomizationSpec $OSCusSpec    
         }
         
-        $Cluster = Get-Cluster 'Cluster'
-        $myDatastore = Get-Datastore -Name 'Shared'
+        
 
         
     }
@@ -86,4 +90,4 @@ function New-VirtJunkieLinkedClone {
     }
 }
 
-New-VirtJunkieLinkedClone
+New-VirtJunkieLinkedClone -vCenter vCenterServer -username domain\user -password "securepassword" -TemplateCustomSpec "Windows-Static-DomainJoin" -ParentVMName source-template -VMName new-cloned-vm -VMIP 2.4.6.8 -VMNetmask 255.255.255.0 -VMGateway 4.3.2.1 -VMDNS 1.2.3.4 -LinkedClone:$false -Cluster "Cluster" -Datastore "Datastore"
