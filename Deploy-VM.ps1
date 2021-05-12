@@ -21,7 +21,9 @@ function New-VirtJunkieLinkedClone {
         $VMIP               = "192.168.86.216",
         $VMNetmask          = "255.255.255.0",
         $VMGateway          = "192.168.86.1",
-        $VMDNS              = "192.168.86.232"
+        $VMDNS              = "192.168.86.232",
+
+        $LinkedClone        = $true
     )
     
     begin {
@@ -60,12 +62,22 @@ function New-VirtJunkieLinkedClone {
  
 
         $mySourceVM = Get-VM -Name $ParentVMName
-        $myReferenceSnapshot = Get-Snapshot -VM $mySourceVM -Name $SnapshotName 
+
+        if ($LinkedClone)
+        {
+            $myReferenceSnapshot = Get-Snapshot -VM $mySourceVM -Name $SnapshotName 
+            $rs = New-VM -Name $VMName -VM $mySourceVM -LinkedClone -ReferenceSnapshot $myReferenceSnapshot -ResourcePool $Cluster `
+            -Datastore $myDatastore -OSCustomizationSpec $OSCusSpec
+        }
+        else 
+        {
+            $rs = New-VM -Name $VMName -VM $mySourceVM -ResourcePool $Cluster -Datastore $myDatastore -OSCustomizationSpec $OSCusSpec    
+        }
+        
         $Cluster = Get-Cluster 'Cluster'
         $myDatastore = Get-Datastore -Name 'Shared'
 
-        $rs = New-VM -Name $VMName -VM $mySourceVM -LinkedClone -ReferenceSnapshot $myReferenceSnapshot -ResourcePool $Cluster `
-        -Datastore $myDatastore -OSCustomizationSpec $OSCusSpec
+        
     }
     
     end {
