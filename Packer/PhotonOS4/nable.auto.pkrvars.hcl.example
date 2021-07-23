@@ -1,0 +1,10 @@
+vcenter_server="dc5vapvcsa01.corp.n-able.com"
+vcenter_username="username@corp.n-able.com"
+vcenter_password="securepassword"
+vcenter_datacenter="DC5 - Ashburn, VA"
+vcenter_insecure_connection=true
+vcenter_folder="Templates"
+vcenter_cluster="DC5-WLD"
+vcenter_datastore="DC5-vSAN-WLD"
+vcenter_portgroup="DC5-WLD-20-PC_Management"
+vmname="DC5-Photon4"
