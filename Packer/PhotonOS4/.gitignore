@@ -1,0 +1,5 @@
+*.tar.gz
+*.box
+packer_cache
+*.pkrvars.hcl
+*.auto.pkrvars.hcl
