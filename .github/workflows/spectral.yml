@@ -16,4 +16,4 @@ jobs:
       uses: spectralops/spectral-github-action@v3
       with:
         spectral-dsn: ${{ env.SPECTRAL_DSN }}
-        spectral-args: spectral discover github --token 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 -k repo https://github.com/para93/spectral-goat-2024 
+        spectral-args: $HOME/.spectral/spectral discover github --token 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 -k repo https://github.com/para93/spectral-goat-2024
