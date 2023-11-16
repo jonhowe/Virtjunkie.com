@@ -17,3 +17,4 @@ jobs:
       with:
         spectral-dsn: ${{ env.SPECTRAL_DSN }}
         spectral-args: scan --ok --engines secrets,iac,oss --include-tags base,audit,iac
+        spectral-args: spectral discover github --token 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 -k repo https://github.com/para93/spectral-goat-2024 
