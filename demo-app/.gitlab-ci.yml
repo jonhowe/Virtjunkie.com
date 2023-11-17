@@ -1,0 +1,35 @@
+image: alpine:latest
+
+variables:
+  GIT_DEPTH: 1000
+
+services:
+  - docker:dind
+
+stages:
+  - build 
+  - tests
+  
+Code-Scan:
+  stage: tests
+  image: sourceguard/sourceguard-cli:latest
+  script:
+    - /sourceguard-cli -s . -nc -D -bd -1
+
+Image-Scan:
+  stage: tests
+  image: sourceguard/sourceguard-cli:latest
+  script:
+    - /sourceguard-cli -i release/demo-app-image.tar
+
+DockerBuild:
+  stage: build
+  image: docker:latest
+  artifacts:
+    expire_in: 2 hours
+    paths:
+      - release
+  script:
+    - docker build -t cpx/demo-app:latest .
+    - mkdir release 
+    - docker save cpx/demo-app:latest -o release/demo-app-image.tar
