@@ -22,4 +22,4 @@ jobs:
       with:
         sarif_file: output.sarif
         category: spectral
-        
+
