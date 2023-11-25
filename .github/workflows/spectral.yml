@@ -16,5 +16,9 @@ jobs:
       uses: spectralops/spectral-github-action@v3
       with:
         spectral-dsn: ${{ env.SPECTRAL_DSN }}
-        spectral-args: scan --ok --engines secrets,iac,oss --include-tags base,audit,iac
-        
+        spectral-args: scan --ok --sarif --engines secrets,iac,oss --include-tags base,audit,iac
+    - name: Upload Results
+      uses: github/codeql-action/upload-sarif@v2
+      with: 
+        sarif_file: output.sarif
+        category: spectral
