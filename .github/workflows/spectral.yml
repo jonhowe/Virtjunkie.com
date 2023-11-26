@@ -15,9 +15,6 @@ jobs:
       with:
         spectral-dsn: ${{ env.SPECTRAL_DSN }}
         spectral-args: scan --ok --sarif --engines secrets,iac,oss --include-tags base,audit,iac
-        path: 'spectral'
-        output_path: results-dir
-        output_formats: 'sarif'
     - name: Upload Results
       uses: github/codeql-action/upload-sarif@v2
       with:
