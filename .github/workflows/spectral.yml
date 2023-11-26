@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Mkdir results-dir
-      run: mkdir -p results-dir
     - name: Install and run Spectral CI
       uses: spectralops/spectral-github-action@v3
       with:
