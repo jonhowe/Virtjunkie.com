@@ -14,7 +14,7 @@ jobs:
       uses: spectralops/spectral-github-action@v3
       with:
         spectral-dsn: ${{ env.SPECTRAL_DSN }}
-        spectral-args: scan --ok --engines secrets,iac,oss --include-tags base,audit,iac
+        spectral-args: scan --ok --sarif --engines secrets,iac,oss --include-tags base,audit,iac
         path: 'spectral'
         output_path: results-dir
         output_formats: 'sarif'
