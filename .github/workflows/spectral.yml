@@ -20,8 +20,5 @@ jobs:
         path: 'spectral'
         output_path: results-dir
         output_formats: 'sarif'
-    - name: Show results
-      run: |
-          cat results-dir/results.sarif
     - name: Upload Results
       uses: github/codeql-action/upload-sarif@v2
