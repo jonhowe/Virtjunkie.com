@@ -1,0 +1,22 @@
+name: Main
+on:
+  pull_request:
+  push:
+    branches: [ main ]    
+env:
+  SPECTRAL_DSN: ${{ secrets.SPECTRAL_DSN }}
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install and run Spectral CI
+      uses: spectralops/spectral-github-action@v4
+      with:
+        spectral-dsn: ${{ env.SPECTRAL_DSN }}
+        spectral-args: scan --ok --sarif --engines secrets,iac,oss --include-tags base,audit,iac
+    - name: Upload Results
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: output.sarif
+        category: spectral

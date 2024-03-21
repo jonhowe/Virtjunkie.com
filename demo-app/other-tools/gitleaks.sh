@@ -1,0 +1,1 @@
+gitleaks -r . -v
